@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from './user';
@@ -8,12 +8,18 @@ import { User } from './user';
 })
 export class LoginuserService {
 
-  private BASE_URL = 'http://localhost:3000/auth/signin';
+  private SIGNIN_URL = 'http://localhost:3000/auth/signin';
 
   constructor(private httpClient: HttpClient) { }
 
   loginUser(user: User): Observable<object> {
-    console.log(user);
-    return this.httpClient.post(`${this.BASE_URL}`, user);
+    const httpOptions = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }
+    const request = this.httpClient.post(this.SIGNIN_URL, user, httpOptions);
+    console.log(request);
+    return request;
   }
 }
